@@ -1,0 +1,37 @@
+[tool.poetry]
+name = "backend"
+version = "0.1.0"
+description = "BackEnd do projeto de Construção de Software UFMS"
+authors = ["Murilo Lobo Teixeira <murilo.lobo@ufms.brr>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "3.11.*"
+alembic = "^1.13.1"
+fastapi = {extras = ["all"], version = "^0.110.0"}
+psycopg2-binary = "^2.9.9"
+pydantic-settings = "^2.2.1"
+sqlalchemy = "^2.0.28"
+passlib = "^1.7.4"
+python-jose = {extras = ["cryptography"], version = "^3.3.0"}
+python-multipart = "^0.0.9"
+bcrypt = "4.0.1"
+
+
+[tool.poetry.group.dev.dependencies]
+isort = "^5.13.2"
+pytest = "^8.1.1"
+ruff = "^0.3.3"
+
+[tool.pytest.ini_options]
+pythonpath = "."
+
+[tool.ruff]
+exclude = [".venv"]
+
+[tool.isort]
+profile = "black"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

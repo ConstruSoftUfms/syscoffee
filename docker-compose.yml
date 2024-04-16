@@ -1,0 +1,39 @@
+services:
+  db:
+    image: postgres:13
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+    - app/db-data:/var/lib/postgresql/data/pgdata
+
+  backend:
+    build:
+      context: /backend
+    ports:
+      - "8000:8000"
+    restart: always
+    environment:
+        - DATABASE_URL=postgresql://postgres:postgres@db:5432/postgres
+    depends_on:
+      - db
+
+  frontend:
+    build:
+      context: /frontend
+    ports:
+      - "3000:3000"
+    restart: always
+    depends_on:
+      - backend
+
+volumes:
+  db-data:
+
+networks:
+  default:
+    external: true
