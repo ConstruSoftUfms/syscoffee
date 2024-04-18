@@ -43,7 +43,7 @@ Bem-vindo à documentação da API MyCoffe! Esta API alimenta a aplicação MyCo
     docker-compose up -d
     ```
     ```bash
-    docker exec api poetry run alembic upgrade head
+    docker exec backend poetry run alembic upgrade head
     ```
 
 Agora, a API MyCoffee estará sendo executada localmente em http://localhost:8000.
