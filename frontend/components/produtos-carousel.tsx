@@ -1,5 +1,6 @@
 "use client"
 
+import getProdutos from "@/app/actions/getProdutos";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
@@ -9,6 +10,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 type Produto = {
   title: string;
@@ -45,6 +47,15 @@ const produtos: Produto[] = [
 ];
 
 export default function ProdutosCarousel() {
+  const {
+    data: produtos
+  } = useQuery({
+    queryKey: ["produtos"],
+    queryFn: () => getProdutos(),
+  });
+
+  console.log(produtos);
+
   const [selectedProduto, setSelectedProduto] = useState<Produto | null>(
     null
   );
@@ -63,9 +74,8 @@ export default function ProdutosCarousel() {
             {produtos.map((produto, index) => (
               <CarouselItem
                 key={index}
-                className={`md:basis-1/2 lg:basis-1/3 ${
-                  selectedProduto === produto ? "bg-gray-200" : ""
-                }`}
+                className={`md:basis-1/2 lg:basis-1/3 ${selectedProduto === produto ? "bg-gray-200" : ""
+                  }`}
               >
                 <div className="p-8">
                   <Card className="bg-neutral-300">
