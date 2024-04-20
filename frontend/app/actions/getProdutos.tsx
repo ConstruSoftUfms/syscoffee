@@ -2,7 +2,7 @@
 
 import { api } from "@/lib/axios"
 
-export interface Produto {
+export  interface Produto {
     id: string
     nome: string
     marca: string
@@ -16,14 +16,11 @@ export interface Produto {
     }
 }
 
-export default async function getProdutos(): Promise<Produto[]> {
-    try {
-        const response = await api.get("/produtos")
+export interface GetPodutosResponse {
+    produtos: Produto[]
+}
 
-        console.log(response.data)
-        return response.data
-    } catch (error) {
-        console.error(error)
-        return []
-    }
+export default async function getProdutos() {
+    const response = await api.get<GetPodutosResponse>('/produtos')
+    return response.data
 }
