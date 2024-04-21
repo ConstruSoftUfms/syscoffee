@@ -25,7 +25,7 @@ export default async function Home() {
         )}
         <SignUpDialog />
       </header>
-      <main className="flex min-h-screen flex-col items-center p-24">
+      <main className="flex flex-col items-center pt-24">
         <h1 className="text-4xl font-bold">My Coffee Home page</h1>
       </main>
       <div className='mt-6'>

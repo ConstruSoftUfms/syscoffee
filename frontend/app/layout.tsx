@@ -1,6 +1,6 @@
-import NextAuthSessionProvider from '@/providers/sessionProvider'
-import type { Metadata } from 'next'
-import './globals.css'
+import type { Metadata } from 'next';
+import './globals.css';
+import Providers from './providers';
 
 export const metadata: Metadata = {
   title: 'My Coffee',
@@ -14,9 +14,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-br">
-      <body className="">
-        <NextAuthSessionProvider>{children}</NextAuthSessionProvider>
-      </body>
+      <Providers>
+        <body className="">
+          {children}
+        </body>
+      </Providers>
     </html>
   )
 }
