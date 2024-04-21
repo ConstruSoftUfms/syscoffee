@@ -9,20 +9,31 @@ class BaseSchema(BaseModel):
     )
 
 
-class UserInput(BaseSchema):
+class UserBase(BaseSchema):
     username: str
     email: EmailStr
+    nome: str
+    cpf: str
+    telefone: str
+    nascimento: str
+    endereco_cep: str
+    endereco_numero: str
+
+
+class UserInput(UserBase):
     password: str
 
 
-class UserDetail(BaseSchema):
+class UserListItem(BaseSchema):
     id: UUID
     username: str
     email: EmailStr
+    nome: str
+    cpf: str
 
 
 class UserList(BaseSchema):
-    users: list[UserDetail]
+    users: list[UserListItem]
 
 
 class CategoriaDetail(BaseSchema):
@@ -51,6 +62,11 @@ class PlanoDetail(BaseSchema):
     valor: float
     descricao: str
 
+class UserDetail(UserBase):
+    id: UUID
+    is_admin: bool
+    foto_url: str
+    plano: PlanoDetail
 
 class PlanoList(BaseSchema):
     planos: list[PlanoDetail]

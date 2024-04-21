@@ -27,12 +27,16 @@ async def create_user(payload: UserInput, session: SessionDependency):
     ):
         raise HTTPException(status_code=400, detail="Username ou email já cadastrados")
 
-    hashed_password = get_password_hash(payload.password)
-
     user = User(
         username=payload.username,
         email=payload.email,
-        password=hashed_password,
+        password=get_password_hash(payload.password),
+        nome=payload.nome,
+        cpf=payload.cpf,
+        telefone=payload.telefone,
+        nascimento=payload.nascimento,
+        endereco_cep=payload.endereco_cep,
+        endereco_numero=payload.endereco_numero,
     )
 
     session.add(user)

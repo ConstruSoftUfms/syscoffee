@@ -21,13 +21,14 @@ class User(Base):
     password: Mapped[str]
 
     nome: Mapped[str | None]
-    rg: Mapped[str | None]
     cpf: Mapped[str | None]
     telefone: Mapped[str | None]
     nascimento: Mapped[datetime | None]
-    endereco: Mapped[str | None]
+    foto_url: Mapped[str | None]
 
-    foto: Mapped[str | None]
+    endereco_cep: Mapped[str | None]
+    endereco_numero: Mapped[str | None]
+
     is_admin: Mapped[bool] = mapped_column(default=False)
 
     fk_plano: Mapped[int | None] = mapped_column(ForeignKey("planos.id"))
