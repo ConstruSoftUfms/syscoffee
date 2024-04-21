@@ -1,14 +1,21 @@
+from datetime import datetime
+from typing import Annotated
 from uuid import UUID
 
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, HTTPException, UploadFile, status, Form
+from pydantic import EmailStr
 from sqlalchemy import or_, select
-
 from src.db import SessionDependency
 from src.models import User
-from src.schemas import UserInput, UserList, UserDetail
+from src.schemas import UserDetail, UserInput, UserList
 from src.services.auth import get_password_hash
 
 router = APIRouter(prefix="/users", tags=["Users"])
+
+
+def save_file(file: UploadFile) -> str:
+    # TODO: Implementar upload de arquivo
+    return ""
 
 
 @router.post(
@@ -16,7 +23,34 @@ router = APIRouter(prefix="/users", tags=["Users"])
     response_model=UserDetail,
     status_code=status.HTTP_201_CREATED,
 )
-async def create_user(payload: UserInput, session: SessionDependency):
+async def create_user(
+    username: Annotated[str, Form()],
+    email: Annotated[EmailStr, Form()],
+    password: Annotated[str, Form()],
+    nome: Annotated[str, Form()],
+    cpf: Annotated[str, Form()],
+    telefone: Annotated[str, Form()],
+    nascimento: Annotated[datetime, Form()],
+    endereco_cep: Annotated[str, Form()],
+    endereco_numero: Annotated[str, Form()],
+    foto: UploadFile,
+    session: SessionDependency,
+):
+    try:
+        payload = UserInput(
+            username=username,
+            email=email,
+            password=password,
+            nome=nome,
+            cpf=cpf,
+            telefone=telefone,
+            nascimento=nascimento,
+            endereco_cep=endereco_cep,
+            endereco_numero=endereco_numero,
+        )
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
     if session.scalar(
         select(User).where(
             or_(
@@ -26,6 +60,13 @@ async def create_user(payload: UserInput, session: SessionDependency):
         )
     ):
         raise HTTPException(status_code=400, detail="Username ou email já cadastrados")
+
+    try:
+        foto_url = save_file(foto)
+        # nome Foo Bar -> Foo+Bar
+        foto_url = f"https://avatar.iran.liara.run/username?username={payload.nome.replace(' ', '+')}"
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
     user = User(
         username=payload.username,
@@ -37,6 +78,7 @@ async def create_user(payload: UserInput, session: SessionDependency):
         nascimento=payload.nascimento,
         endereco_cep=payload.endereco_cep,
         endereco_numero=payload.endereco_numero,
+        foto_url=foto_url,
     )
 
     session.add(user)

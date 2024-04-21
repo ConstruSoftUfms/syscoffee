@@ -1,3 +1,4 @@
+from datetime import datetime
 from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict, EmailStr
@@ -15,7 +16,7 @@ class UserBase(BaseSchema):
     nome: str
     cpf: str
     telefone: str
-    nascimento: str
+    nascimento: datetime
     endereco_cep: str
     endereco_numero: str
 
@@ -62,11 +63,13 @@ class PlanoDetail(BaseSchema):
     valor: float
     descricao: str
 
+
 class UserDetail(UserBase):
     id: UUID
     is_admin: bool
     foto_url: str
-    plano: PlanoDetail
+    plano: PlanoDetail | None
+
 
 class PlanoList(BaseSchema):
     planos: list[PlanoDetail]
