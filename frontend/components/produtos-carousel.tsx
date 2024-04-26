@@ -1,5 +1,6 @@
 "use client"
 
+import getProdutos, { Produto } from "@/app/actions/getProdutos";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
@@ -8,43 +9,18 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 
-type Produto = {
-  title: string;
-  description: string;
-  image: string;
-  price: number;
-};
-
-const produtos: Produto[] = [
-  {
-    title: "Café Gourmet",
-    description: "Café torrado e moído de alta qualidade, proveniente de fazendas selecionadas.",
-    image: "https://mediaserver.almg.gov.br/acervo/639/527/1639527.jpg",
-    price: 19.99,
-  },
-  {
-    title: "Café Espresso",
-    description: "Blend especial para preparo de espresso, com notas intensas e aroma encorpado.",
-    image: "https://regenerati.com.br/wp-content/uploads/2023/10/cafe-e-o-cerebro.jpg",
-    price: 24.99,
-  },
-  {
-    title: "Café Orgânico",
-    description: "Café cultivado de forma orgânica, livre de pesticidas e produtos químicos.",
-    image: "https://blog.bicafebrasil.com.br/wp-content/uploads/2023/01/Tipos-de-cafe-da-manha-1.jpg",
-    price: 29.99,
-  },
-  {
-    title: "Café Descafeinado",
-    description: "Café descafeinado de alta qualidade, mantendo todo o sabor sem a cafeína.",
-    image: "https://receitasdepesos.com.br/wp-content/uploads/2023/11/cafe-com-leite-cremoso.jpg",
-    price: 22.99,
-  },
-];
 
 export default function ProdutosCarousel() {
+  const {
+    data: response
+  } = useQuery({
+    queryKey: ["produtos"],
+    queryFn: () => getProdutos(),
+  });
+
   const [selectedProduto, setSelectedProduto] = useState<Produto | null>(
     null
   );
@@ -60,30 +36,32 @@ export default function ProdutosCarousel() {
 
         <Carousel opts={{ align: "start", loop: true }} className="w-full">
           <CarouselContent>
-            {produtos.map((produto, index) => (
+            {response?.produtos.map((produto, index) => (
               <CarouselItem
                 key={index}
-                className={`md:basis-1/2 lg:basis-1/3 ${
-                  selectedProduto === produto ? "bg-gray-200" : ""
-                }`}
+                className={`md:basis-1/2 lg:basis-1/3 ${selectedProduto === produto ? "bg-gray-200" : ""
+                  }`}
               >
                 <div className="p-8">
                   <Card className="bg-neutral-300">
                     <img
-                      src={produto.image}
-                      alt={produto.title}
-                      className="w-full h-auto"
+                      src={produto.imagem_url}
+                      alt={produto.nome}
+                      className="w-full h-48 object-cover"
                     />
                     <CardContent className="p-4">
                       <h3 className="text-lg font-semibold mb-2">
-                        {produto.title}
+                        {produto.nome}
                       </h3>
                       <p className="text-sm text-gray-500 mb-2">
-                        {produto.description}
+                        {produto.descricao}
+                      </p>
+                      <p className="text-sm text-gray-500 mb-2">
+                        Marca: {produto.marca}
                       </p>
                       <div style={{ textAlign: "center", marginBottom: "10px" }}>
                         <p style={{ fontSize: "20px", fontWeight: "bold", color: "#333", marginTop: "10px" }}>
-                          R${produto.price.toFixed(2)}
+                          R${produto.valor.toFixed(2)}
                         </p>
                       </div>
                       <button

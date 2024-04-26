@@ -97,7 +97,7 @@ async def populate_db(session: SessionDependency):
             imagem_url="https://media.istockphoto.com/id/1045880988/pt/foto/coffee-art-in-cup-closeup-of-hands-making-latte-art.jpg?s=612x612&w=0&k=20&c=PzlffOKynXxv36oRGNYFDYyhDkCLG1dRS5ZzwaKF704=",
         ),
         Produto(
-            nome="Pacote de café moído",
+            nome="Pacote moído",
             marca="Café gourmet",
             valor=40.0,
             descricao="Pacote de café gourmet",
@@ -106,7 +106,7 @@ async def populate_db(session: SessionDependency):
             imagem_url="https://media.istockphoto.com/id/962658860/pt/foto/coffee-bag-with-custom-label-organic-whole-beans.jpg?s=612x612&w=0&k=20&c=hX3rRavuuh6KWA0si7hdVdjHobQi30A3FXVtFaE_13M=",
         ),
         Produto(
-            nome="Pacote de café em grãos",
+            nome="Pacote grãos",
             marca="Café gourmet",
             valor=50.0,
             descricao="Pacote de café gourmet",

@@ -36,6 +36,7 @@ const nextAuthOptions: NextAuthOptions = {
             )
             throw error
           })
+        console.log('response', response)
         const data = signInResponseSchema.parse(response?.data)
         return {
           id: data.user.id,
