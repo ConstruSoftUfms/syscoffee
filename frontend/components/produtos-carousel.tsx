@@ -31,42 +31,43 @@ export default function ProdutosCarousel() {
 
   return (
     <div className="flex justify-center items-center h-screen">
-      <div className="w-full max-w-4xl">
-        <h1 className="text-center mb-8 text-3xl font-bold">Produtos</h1>
+      <div className="w-full max-w-6xl  ">
+        <h1 className="text-center mb-8 text-3xl font-bold text-white ">Produtos</h1>
 
-        <Carousel opts={{ align: "start", loop: true }} className="w-full">
+        <Carousel opts={{ align: "start", loop: true }} className="w-full h-full ">
           <CarouselContent>
             {response?.produtos.map((produto, index) => (
               <CarouselItem
                 key={index}
-                className={`md:basis-1/2 lg:basis-1/3 ${selectedProduto === produto ? "bg-gray-200" : ""
+                className={`md:basis-1/2 lg:basis-1/3 rounded-2xl border-none ${selectedProduto === produto ? "border border-red-500" : "border-none"
                   }`}
               >
-                <div className="p-8">
-                  <Card className="bg-neutral-300">
+                <div className="p-8 bg-center">
+                  <Card className=" bg-[#2f2f2f] border-none">
                     <img
                       src={produto.imagem_url}
                       alt={produto.nome}
-                      className="w-full h-48 object-cover"
+                      className="w-full h-48 object-cover rounded-lg"
                     />
                     <CardContent className="p-4">
-                      <h3 className="text-lg font-semibold mb-2">
+                      <h3 className="text-xl text-center font-semibold mb-3 text-white">
                         {produto.nome}
                       </h3>
-                      <p className="text-sm text-gray-500 mb-2">
-                        {produto.descricao}
-                      </p>
-                      <p className="text-sm text-gray-500 mb-2">
-                        Marca: {produto.marca}
-                      </p>
-                      <div style={{ textAlign: "center", marginBottom: "10px" }}>
-                        <p style={{ fontSize: "20px", fontWeight: "bold", color: "#333", marginTop: "10px" }}>
+                      <div style={{ textAlign: "start"}}>
+                        <p className = "text-neutral-300" style={{ fontSize: "20px", fontWeight: "bold", marginTop: "30px" }}>
                           R${produto.valor.toFixed(2)}
                         </p>
                       </div>
+                      <p className="text-lg text-white mb-2 text-wrap h-36 "style={{ marginTop: "25px" }}>
+                        {produto.descricao}
+                      </p>
+                      <p className="text-sm text-white mb-2 italic h-12">
+                        Marca: {produto.marca}
+                      </p>
+
                       <button
                         onClick={() => handleProdutoSelect(produto)}
-                        className="bg-neutral-900 text-white px-4 py-2 rounded hover:bg-blue-600"
+                        className="bg-blue-700 text-white font-bold px-20 py-3 rounded-3xl hover:bg-blue-950 "
                         style={{ marginTop: "10px", display: "block", margin: "0 auto" }}
                       >
                         Comprar
@@ -74,7 +75,7 @@ export default function ProdutosCarousel() {
                     </CardContent>
                   </Card>
                 </div>
-              </CarouselItem>
+              </CarouselItem >
             ))}
           </CarouselContent>
           <CarouselPrevious />

@@ -70,7 +70,7 @@ export function SignUpDialog() {
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogTrigger asChild id="login">
-        <Button variant="outline">Cadastre-se</Button>
+        <Button className="rounded-2xl text-1xl font-bold border-none bg-green-800 hover:bg-green-900 ">Cadastre-se</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader className="flex-col items-center space-x-2">
