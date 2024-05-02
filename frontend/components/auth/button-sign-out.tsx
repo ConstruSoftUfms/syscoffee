@@ -12,5 +12,6 @@ export default function ButtonSignOut() {
     router.replace('/')
   }
 
-  return <Button onClick={() => handleSignOut()}>Sair</Button>
+  return <Button className='rounded-2xl text-1xl text-white font-bold border-none bg-red-800 hover:bg-red-900 ' 
+  onClick={() => handleSignOut()}>Sair</Button>
 }
