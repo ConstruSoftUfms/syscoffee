@@ -74,7 +74,7 @@ export function SignInDialog() {
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogTrigger asChild id="login">
-        <Button variant="outline">Login</Button>
+        <Button className="rounded-2xl text-1xl font-bold border-none bg-blue-600 hover:bg-blue-700 ">Login</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[400px]">
         <DialogHeader className="flex-col items-center space-x-2">
