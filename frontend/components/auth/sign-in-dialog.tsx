@@ -22,12 +22,12 @@ import { z } from "zod"
 const loginSchema = z.object({
   username_email: z
     .string()
-    .min(5, 'Mínimo 6 caracteres')
-    .max(50, 'Máximo 50 caracteres'),
+    .min(4, 'Mínimo 4 caracteres')
+    .max(24, 'Máximo 24 caracteres'),
   password: z
     .string()
-    .min(5, 'Mínimo 8 caracteres')
-    .max(50, 'Máximo 50 caracteres'),
+    .min(6, 'Mínimo 6 caracteres')
+    .max(64, 'Máximo 64 caracteres'),
 })
 
 export function SignInDialog() {

@@ -15,9 +15,12 @@ export default async function Home() {
       <header className="p-3 bg-gray-100 flex justify-end items-center space-x-3">
         {user ? (
           <>
-            <span>
-              Bem-vindo, <strong>{user.username}</strong>!
-            </span>
+            <img
+              className="w-8 h-8 rounded-full"
+              src={user.foto_url}
+              alt={user.nome}
+              />
+              <strong>{user.nome}</strong>
             <ButtonSignOut />
           </>
         ) : (

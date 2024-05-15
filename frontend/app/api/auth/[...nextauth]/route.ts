@@ -9,6 +9,16 @@ const signInResponseSchema = z.object({
     id: z.string(),
     username: z.string(),
     email: z.string(),
+
+    nome: z.string(),
+    cpf: z.string(),
+    telefone: z.string(),
+    nascimento: z.string(),
+    endereco_cep: z.string(),
+    endereco_numero: z.string(),
+    foto_url: z.string(),
+
+    is_admin: z.boolean(),
   }),
 })
 
@@ -41,6 +51,17 @@ const nextAuthOptions: NextAuthOptions = {
           id: data.user.id,
           username: data.user.username,
           email: data.user.email,
+
+          nome: data.user.nome,
+          cpf: data.user.cpf,
+          telefone: data.user.telefone,
+          nascimento: data.user.nascimento,
+          endereco_cep: data.user.endereco_cep,
+          endereco_numero: data.user.endereco_numero,
+          foto_url: data.user.foto_url,
+
+          is_admin: data.user.is_admin,
+
           accessToken: data.access_token,
         }
       },
@@ -58,6 +79,14 @@ const nextAuthOptions: NextAuthOptions = {
           id: user.id,
           username: user.username,
           email: user.email,
+          nome: user.nome,
+          cpf: user.cpf,
+          telefone: user.telefone,
+          nascimento: user.nascimento,
+          endereco_cep: user.endereco_cep,
+          endereco_numero: user.endereco_numero,
+          foto_url: user.foto_url,
+          is_admin: user.is_admin,
         }
       )
       return token
