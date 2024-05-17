@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from fastapi import APIRouter
 
 from src.db import SessionDependency
@@ -13,6 +15,15 @@ async def populate_db(session: SessionDependency):
         username="admin",
         email="admin@email.com",
         password=get_password_hash("admin"),
+
+        nome="Admin Edminson",
+        cpf="12345678900",
+        telefone="123456789",
+        nascimento=datetime(1990, 1, 1),
+        endereco_cep="12345678",
+        endereco_numero="123",
+        foto_url="https://avatar.iran.liara.run/username?username=Admin+Edminson",
+
         is_admin=True,
     )
 
@@ -21,16 +32,37 @@ async def populate_db(session: SessionDependency):
             username="user1",
             email="user1@email.com",
             password=get_password_hash("user1"),
+            nome="User Userson",
+            cpf="98765432100",
+            telefone="987654321",
+            nascimento=datetime(1990, 1, 1),
+            endereco_cep="87654321",
+            endereco_numero="987",
+            foto_url="https://avatar.iran.liara.run/username?username=User+Userson",
         ),
         User(
             username="user2",
             email="user2@email.com",
             password=get_password_hash("user2"),
+            nome="User Digerson",
+            cpf="98765432100",
+            telefone="987654321",
+            nascimento=datetime(1990, 1, 1),
+            endereco_cep="87654321",
+            endereco_numero="987",
+            foto_url="https://avatar.iran.liara.run/username?username=User+Digerson",
         ),
         User(
             username="user3",
             email="user3@email.com",
             password=get_password_hash("user3"),
+            nome="User Treson",
+            cpf="98765432100",
+            telefone="987654321",
+            nascimento=datetime(1990, 1, 1),
+            endereco_cep="87654321",
+            endereco_numero="987",
+            foto_url="https://avatar.iran.liara.run/username?username=User+Treson",
         ),
     ]
 

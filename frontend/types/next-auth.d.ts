@@ -5,6 +5,17 @@ declare module 'next-auth' {
     id: string;
     username: string;
     email: string;
+
+    nome: string;
+    cpf: string;
+    telefone: string;
+    nascimento: string;
+    endereco_cep: string;
+    endereco_numero: string;
+    foto_url: string;
+
+    is_admin: boolean;
+
     accessToken: string;
   }
 

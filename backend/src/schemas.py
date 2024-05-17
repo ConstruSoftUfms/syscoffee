@@ -1,3 +1,4 @@
+from datetime import datetime
 from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict, EmailStr
@@ -9,20 +10,31 @@ class BaseSchema(BaseModel):
     )
 
 
-class UserInput(BaseSchema):
+class UserBase(BaseSchema):
     username: str
     email: EmailStr
+    nome: str
+    cpf: str
+    telefone: str
+    nascimento: datetime
+    endereco_cep: str
+    endereco_numero: str
+
+
+class UserInput(UserBase):
     password: str
 
 
-class UserDetail(BaseSchema):
+class UserListItem(BaseSchema):
     id: UUID
     username: str
     email: EmailStr
+    nome: str
+    cpf: str
 
 
 class UserList(BaseSchema):
-    users: list[UserDetail]
+    users: list[UserListItem]
 
 
 class CategoriaDetail(BaseSchema):
@@ -50,6 +62,13 @@ class PlanoDetail(BaseSchema):
     nome: str
     valor: float
     descricao: str
+
+
+class UserDetail(UserBase):
+    id: UUID
+    is_admin: bool
+    foto_url: str
+    plano: PlanoDetail | None
 
 
 class PlanoList(BaseSchema):
