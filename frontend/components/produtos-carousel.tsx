@@ -32,9 +32,9 @@ export default function ProdutosCarousel() {
   return (
     <div className="flex justify-center items-center h-screen">
       <div className="w-full max-w-6xl  ">
-        <h1 className="text-center mb-8 text-3xl font-bold text-white ">Produtos</h1>
+        <h1 className="text-center mb-8 text-xl md:text-xl lg:text-3xl font-bold text-white">Produtos</h1>
 
-        <Carousel opts={{ align: "start", loop: true }} className="w-full h-full ">
+        <Carousel opts={{ align: "start", loop: true }} className="w-full h-full">
           <CarouselContent>
             {response?.produtos.map((produto, index) => (
               <CarouselItem
@@ -42,7 +42,7 @@ export default function ProdutosCarousel() {
                 className={`md:basis-1/2 lg:basis-1/3 rounded-2xl border-none ${selectedProduto === produto ? "border border-red-500" : "border-none"
                   }`}
               >
-                <div className="p-8 bg-center">
+                <div className="p-16 lg:p-8 bg-center">
                   <Card className=" bg-[#2f2f2f] border-none">
                     <img
                       src={produto.imagem_url}
@@ -78,8 +78,8 @@ export default function ProdutosCarousel() {
               </CarouselItem >
             ))}
           </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
+          <CarouselPrevious className="absolute left-2 top-1/2 transform -translate-y-1/2 md:left-4 lg:left-0 md:top-1/2 md:transform md:-translate-y-1/2" />
+          <CarouselNext className="absolute right-2 top-1/2 transform -translate-y-1/2 md:right-4 lg:right-0 md:top-1/2 md:transform md:-translate-y-1/2" />
         </Carousel>
       </div>
     </div>
