@@ -1,12 +1,13 @@
+import Sobre from '@/components/Sobre'
 import ButtonSignOut from '@/components/auth/button-sign-out'
 import { SignInDialog } from '@/components/auth/sign-in-dialog'
 import { SignUpDialog } from '@/components/auth/sign-up-dialog'
+import MenuNavegation from '@/components/navegationMenu'
+import PlanosCard from '@/components/planos'
 import ProdutosCarousel from '@/components/produtos-carousel'
+import { ThemeSwitcher } from '@/components/theme-switcher'
 import { getServerSession } from 'next-auth'
 import { nextAuthOptions } from './api/auth/[...nextauth]/route'
-import Sobre from '@/components/Sobre'
-import PlanosCard from '@/components/planos'
-import MenuNavegation from '@/components/navegationMenu'
 
 
 export default async function Home() {
@@ -22,12 +23,13 @@ export default async function Home() {
           {user ? (
             <>
               <span className='text-white space-x-3'  >
-                Bem-vindo, <strong>{user.username} !</strong>
+               <strong>{user.username} !</strong>
               </span>
               <ButtonSignOut />
             </>
           ) : (
             <div className='space-x-3'>
+              <ThemeSwitcher />
               <SignInDialog />
               <SignUpDialog />
             </div>

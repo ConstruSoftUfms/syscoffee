@@ -59,10 +59,11 @@
     @apply bg-background text-foreground;
   }
 }
-body {
-  background-color: #1a1918; /* Altere para a cor que deseja usar */
+/* body {
+  background-color: #1a1918;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: sans-serif;
-}
+} 
+*/

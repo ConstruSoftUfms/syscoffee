@@ -12,7 +12,6 @@ export default async function PerfilPage() {
       <span>
         Informações do usuário
       </span>
-      <img className="w-20 h-20" src={user?.foto_url} alt={user?.nome} />
       <span>
         Nome: {user?.nome}
       </span>
