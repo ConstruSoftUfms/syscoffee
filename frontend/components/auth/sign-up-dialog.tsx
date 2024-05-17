@@ -61,7 +61,7 @@ export function SignUpDialog() {
 
     if (response.status === 201) {
       alert('Usuário criado com sucesso!')
-      router.replace('/login')
+      router.replace('/?sign-in')
     } else {
       alert('Erro ao criar usuário!')
     }

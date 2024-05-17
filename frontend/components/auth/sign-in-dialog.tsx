@@ -74,11 +74,11 @@ export function SignInDialog() {
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogTrigger asChild id="login">
-        <Button className="rounded-2xl text-1xl font-bold border-none bg-blue-600 hover:bg-blue-700 ">Login</Button>
+        <Button className="rounded-2xl text-1xl font-bold border-none bg-blue-600 hover:bg-blue-700 ">Entrar</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[400px]">
         <DialogHeader className="flex-col items-center space-x-2">
-          <DialogTitle>Login</DialogTitle>
+          <DialogTitle>Entre na sua conta</DialogTitle>
           <Coffee className="mx-auto h-8 w-auto  text-zinc-700" />
         </DialogHeader>
         <Form {...form}>
@@ -125,7 +125,7 @@ export function SignInDialog() {
               </div>
             </div>
             <Button className="w-full" type="submit">
-              Login
+              Entrar
             </Button>
           </form>
         </Form>
