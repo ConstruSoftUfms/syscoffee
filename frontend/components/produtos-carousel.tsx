@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/carousel";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-
+import { Button } from '@/components/ui/button'
 
 export default function ProdutosCarousel() {
   const {
@@ -33,6 +33,7 @@ export default function ProdutosCarousel() {
     <div className="flex justify-center items-center h-screen">
       <div className="w-full max-w-6xl  ">
         <h1 className="text-center mb-8 text-xl md:text-xl lg:text-3xl font-bold text-white">Produtos</h1>
+        <Button variant="outline" className="" ><a > Ver mais</a></Button>
 
         <Carousel opts={{ align: "start", loop: true }} className="w-full h-full">
           <CarouselContent>
@@ -77,6 +78,7 @@ export default function ProdutosCarousel() {
                 </div>
               </CarouselItem >
             ))}
+          
           </CarouselContent>
           <CarouselPrevious className="absolute left-2 top-1/2 transform -translate-y-1/2 md:left-4 lg:left-0 md:top-1/2 md:transform md:-translate-y-1/2" />
           <CarouselNext className="absolute right-2 top-1/2 transform -translate-y-1/2 md:right-4 lg:right-0 md:top-1/2 md:transform md:-translate-y-1/2" />

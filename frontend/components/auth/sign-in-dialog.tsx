@@ -26,7 +26,7 @@ const loginSchema = z.object({
     .max(24, 'Máximo 24 caracteres'),
   password: z
     .string()
-    .min(6, 'Mínimo 6 caracteres')
+    .min(4, 'Mínimo 6 caracteres')
     .max(64, 'Máximo 64 caracteres'),
 })
 

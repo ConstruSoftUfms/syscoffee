@@ -28,8 +28,32 @@ export const signUpSchema = z.object({
     .max(50, 'Email deve ter no máximo 50 caracteres'),
   password: z
     .string()
-    .min(8, 'Senha deve ter no mínimo 8 caracteres')
+    .min(4, 'Senha deve ter no mínimo 4 caracteres')
     .max(50, 'Senha deve ter no máximo 50 caracteres'),
+  nome: z
+    .string()
+    .min(6, 'Nome deve ter no mínimo 6 caracteres')
+    .max(50, 'Nome deve ter no máximo 50 caracteres'),
+  cpf: z
+    .string()
+    .min(11, 'CPF deve ter no mínimo 11 caracteres')
+    .max(14, 'CPF deve ter no máximo 14 caracteres'),
+  telefone: z
+    .string()
+    .min(10, 'Telefone deve ter no mínimo 10 caracteres')
+    .max(15, 'Telefone deve ter no máximo 15 caracteres'),
+  nascimento: z
+    .string()
+    .min(8, 'Data de nascimento deve ter no mínimo 8 caracteres')
+    .max(10, 'Data de nascimento deve ter no máximo 10 caracteres'),
+  endereco_cep: z
+    .string()
+    .min(8, 'CEP deve ter no mínimo 8 caracteres')
+    .max(11, 'CEP deve ter no máximo 9 caracteres'),
+  endereco_numero: z
+    .string()
+    .min(1, 'Número deve ter no mínimo 1 caracteres')
+    .max(6, 'Número deve ter no máximo 6 caracteres'),
 })
 
 export function SignUpDialog() {
@@ -44,6 +68,12 @@ export function SignUpDialog() {
       username: '',
       email: '',
       password: '',
+      nome: '',
+      cpf: '',
+      telefone: '',
+      nascimento: '',
+      endereco_cep: '',
+      endereco_numero: '',
     },
   })
 
@@ -56,8 +86,14 @@ export function SignUpDialog() {
     const username = data.username
     const email = data.email
     const password = data.password
+    const nome = data.nome
+    const cpf = data.cpf
+    const telefone = data.telefone
+    const nascimento = data.nascimento
+    const endereco_cep = data.endereco_cep
+    const endereco_numero = data.endereco_numero
 
-    const response = await api.post('/users', { username, email, password })
+    const response = await api.post('/users', { username, email, password, nome, cpf, telefone, nascimento, endereco_cep, endereco_numero})
 
     if (response.status === 201) {
       alert('Usuário criado com sucesso!')
@@ -84,39 +120,111 @@ export function SignUpDialog() {
           >
             <div className="grid gap-4 py-4 items-center">
               <div className="grid w-full items-center gap-4">
+
                 <FormField
                   control={form.control}
-                  name="username"
+                  name="nome"
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Input placeholder="Username" {...field} />
+                        <Input placeholder="Nome" {...field} />
                       </FormControl>
                     </FormItem>
                   )}
                 />
                 <FormField
                   control={form.control}
-                  name="email"
+                  name="cpf"
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Input placeholder="Email" {...field} />
+                        <Input placeholder="CPF" {...field} />
                       </FormControl>
                     </FormItem>
                   )}
                 />
+
+                <div className='grid grid-cols-2 gap-2 place-content-center h-auto'>
+                  <FormField
+                    control={form.control}
+                    name="telefone"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input placeholder="Telefone" {...field} />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="nascimento"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input type= "date" placeholder="Data de Nascimento" {...field} />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="endereco_cep"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input placeholder="CEP" {...field} />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="endereco_numero"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input placeholder="Número" {...field} />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                </div>
                 <FormField
-                  control={form.control}
-                  name="password"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <Input type="password" placeholder="Senha" {...field} />
-                      </FormControl>
-                    </FormItem>
-                  )}
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input placeholder="Email" {...field} />
+                        </FormControl>
+                      </FormItem>
+                    )}
                 />
+                <div className='grid grid-cols-2 gap-2 place-content-center h-auto'>
+                  <FormField
+                    control={form.control}
+                    name="username"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input placeholder="Username" {...field} />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="password"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input type="password" placeholder="Senha" {...field} />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                </div>
               </div>
             </div>
             <Button className="w-full" type="submit">
