@@ -19,32 +19,33 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 export const signUpSchema = z.object({
-  username: z.string(),
-  // .min(6, 'Username deve ter no mínimo 6 caracteres')
-  // .max(50, 'Username deve ter no máximo 50 caracteres'),
-  email: z.string().email('Email inválido'),
-  // .max(50, 'Email deve ter no máximo 50 caracteres'),
-  password: z.string(),
-  // .min(4, 'Senha deve ter no mínimo 4 caracteres')
-  // .max(50, 'Senha deve ter no máximo 50 caracteres'),
-  nome: z.string(),
-  // .min(6, 'Nome deve ter no mínimo 6 caracteres')
-  // .max(50, 'Nome deve ter no máximo 50 caracteres'),
-  cpf: z.string(),
-  // .min(11, 'CPF deve ter no mínimo 11 caracteres')
-  // .max(14, 'CPF deve ter no máximo 14 caracteres'),
-  telefone: z.string(),
-  // .min(9, 'Telefone deve ter no mínimo 10 caracteres')
-  // .max(15, 'Telefone deve ter no máximo 15 caracteres'),
-  nascimento: z.string(),
-  // .min(8, 'Data de nascimento deve ter no mínimo 8 caracteres')
-  // .max(10, 'Data de nascimento deve ter no máximo 10 caracteres'),
-  endereco_cep: z.string(),
-  // .min(8, 'CEP deve ter no mínimo 8 caracteres')
-  // .max(11, 'CEP deve ter no máximo 9 caracteres'),
-  endereco_numero: z.string(),
-  // .min(1, 'Número deve ter no mínimo 1 caracteres')
-  // .max(6, 'Número deve ter no máximo 6 caracteres'),
+  username: z.string()
+  .min(4, 'Username deve ter no mínimo 6 caracteres')
+  .max(50, 'Username deve ter no máximo 50 caracteres'),
+  email: z.string().email('Email inválido')
+  .max(50, 'Email deve ter no máximo 50 caracteres'),
+  password: z.string()
+  .min(4, 'Senha deve ter no mínimo 4 caracteres')
+  .max(50, 'Senha deve ter no máximo 50 caracteres'),
+  nome: z.string()
+  .min(6, 'Nome deve ter no mínimo 6 caracteres')
+  .max(50, 'Nome deve ter no máximo 50 caracteres'),
+  cpf: z.string()
+  .min(11, 'CPF deve ter no mínimo 11 caracteres')
+  .max(14, 'CPF deve ter no máximo 14 caracteres'),
+  telefone: z.string()
+  .min(9, 'Telefone deve ter no mínimo 10 caracteres')
+  .max(15, 'Telefone deve ter no máximo 15 caracteres'),
+  nascimento: z.string()
+  .min(8, 'Data de nascimento deve ter no mínimo 8 caracteres')
+  .max(10, 'Data de nascimento deve ter no máximo 10 caracteres'),
+  endereco_cep: z.string()
+  .min(8, 'CEP deve ter no mínimo 8 caracteres')
+  .max(11, 'CEP deve ter no máximo 9 caracteres'),
+  endereco_numero: z.string()
+  .min(1, 'Número deve ter no mínimo 1 caracteres')
+  .max(6, 'Número deve ter no máximo 6 caracteres'),
+  foto: z.string(),
 })
 
 export function SignUpDialog() {
@@ -65,6 +66,7 @@ export function SignUpDialog() {
       nascimento: '',
       endereco_cep: '',
       endereco_numero: '',
+      foto: '',
     },
   })
 
@@ -74,41 +76,24 @@ export function SignUpDialog() {
   }
 
   async function handleSignUp(data: z.infer<typeof signUpSchema>) {
-    await postUser({
-      username: data.username,
-      email: data.email,
-      password: data.password,
-      nome: data.nome,
-      cpf: data.cpf,
-      telefone: data.telefone,
-      nascimento: data.nascimento,
-      endereco_cep: data.endereco_cep,
-      endereco_numero: data.endereco_numero,
-    })
+    await postUser(data)
       .then((response) => {
         if (response.status === 201) {
           alert('Usuário criado com sucesso!')
           router.replace('/?sign-in')
         } else {
-          alert('Erro ao criar usuário!')
+          alert('Erro ao criar usuário')
         }
       })
       .catch((error) => {
         console.error(error)
       })
-
-    // if (response.status === 201) {
-    //   alert('Usuário criado com sucesso!')
-    //   router.replace('/?sign-in')
-    // } else {
-    //   alert('Erro ao criar usuário!')
-    // }
   }
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogTrigger asChild id="login">
-        <Button className="text-1xl rounded-2xl border-none bg-green-800 font-bold hover:bg-green-900 ">
+        <Button className="text-1xl rounded-2xl border-none bg-green-800 font-bold hover:bg-green-900 dark:text-white">
           Cadastre-se
         </Button>
       </DialogTrigger>
@@ -208,7 +193,19 @@ export function SignUpDialog() {
                     </FormItem>
                   )}
                 />
+                <FormField
+                  control={form.control}
+                  name="foto"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input type="file"  placeholder="foto" {...field} />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
                 <div className="grid h-auto grid-cols-2 place-content-center gap-2">
+                
                   <FormField
                     control={form.control}
                     name="username"

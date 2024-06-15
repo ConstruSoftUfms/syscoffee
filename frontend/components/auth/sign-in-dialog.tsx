@@ -74,7 +74,7 @@ export function SignInDialog() {
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogTrigger asChild id="login">
-        <Button className="rounded-2xl text-1xl font-bold border-none bg-blue-600 hover:bg-blue-700 ">Entrar</Button>
+        <Button className="rounded-2xl text-1xl font-bold border-none bg-blue-600 hover:bg-blue-700 dark:text-white">Entrar</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[400px]">
         <DialogHeader className="flex-col items-center space-x-2">

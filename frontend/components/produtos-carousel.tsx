@@ -12,6 +12,7 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { Button } from '@/components/ui/button'
+import ProdutosCard from '@/components/produtos-cards'
 
 export default function ProdutosCarousel() {
   const {
@@ -32,9 +33,11 @@ export default function ProdutosCarousel() {
   return (
     <div className="flex justify-center items-center h-screen">
       <div className="w-full max-w-6xl  ">
-        <h1 className="text-center mb-8 text-xl md:text-xl lg:text-3xl font-bold text-white">Produtos</h1>
-        <Button variant="outline" className="" ><a > Ver mais</a></Button>
-
+        <h1 className="text-center mb-8 text-xl md:text-xl lg:text-3xl font-bold text-black dark:text-white">Produtos</h1>
+        <div className="flex justify-end">
+          <ProdutosCard />
+        </div>
+        
         <Carousel opts={{ align: "start", loop: true }} className="w-full h-full">
           <CarouselContent>
             {response?.produtos.map((produto, index) => (
@@ -66,13 +69,13 @@ export default function ProdutosCarousel() {
                         Marca: {produto.marca}
                       </p>
 
-                      <button
+                      <Button
                         onClick={() => handleProdutoSelect(produto)}
                         className="bg-blue-700 text-white font-bold px-20 py-3 rounded-3xl hover:bg-blue-950 "
                         style={{ marginTop: "10px", display: "block", margin: "0 auto" }}
                       >
                         Comprar
-                      </button>
+                      </Button>
                     </CardContent>
                   </Card>
                 </div>
