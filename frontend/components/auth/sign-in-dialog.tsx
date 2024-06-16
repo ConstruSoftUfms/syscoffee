@@ -9,7 +9,7 @@ import {
   DialogTitle,
   DialogTrigger
 } from "@/components/ui/dialog"
-import { Form, FormControl, FormField, FormItem } from "@/components/ui/form"
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Coffee } from "lucide-react"
@@ -50,7 +50,7 @@ export function SignInDialog() {
       setTimeout(() => {
         const user = { username: 'Sonner' };
         resolve(user);
-      }, 20)
+      }, 2000)
     );
 
   const onOpenChange = (isOpen: boolean) => {
@@ -113,6 +113,7 @@ export function SignInDialog() {
                       <FormControl>
                         <Input placeholder="Username/Email" {...field} />
                       </FormControl>
+                      <FormMessage className='text-yellow-300' />
                     </FormItem>
                   )}
                 />
@@ -125,6 +126,7 @@ export function SignInDialog() {
                       <FormControl>
                         <Input type="password" placeholder="Senha" {...field} />
                       </FormControl>
+                      <FormMessage className='text-yellow-300' />
                     </FormItem>
                   )}
                 />
