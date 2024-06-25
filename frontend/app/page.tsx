@@ -8,6 +8,8 @@ import ProdutosCarousel from '@/components/produtos-carousel'
 import { ThemeSwitcher } from '@/components/theme-switcher'
 import { getServerSession } from 'next-auth'
 import { nextAuthOptions } from './api/auth/[...nextauth]/route'
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+
 
 export default async function Home() {
   const session = await getServerSession(nextAuthOptions)
@@ -18,26 +20,27 @@ export default async function Home() {
       <header className="p-2 dark:bg-black flex justify-between items-center space-x-3 sticky top-0 z-10">
         
         <MenuNavegation/>
-        <div className="flex items-center space-x-3 ">
+        <div className="flex items-center space-x-3">
           {user ? (
             <>
-              <span className='text-white space-x-3'  >
-               <strong>{user.username} !</strong>
+              <Avatar>
+                <AvatarImage src={user.foto_url} alt={user.username} />
+                <AvatarFallback>{user.username.charAt(0).toUpperCase()}</AvatarFallback>
+              </Avatar>
+              <span className="text-white">
+                <strong>{user.username}</strong>
               </span>
               <ButtonSignOut />
               <ThemeSwitcher />
             </>
           ) : (
-            <div className='space-x-3'>
+            <div className="space-x-3">
               <SignInDialog />
               <SignUpDialog />
-              <ThemeSwitcher />              
+              <ThemeSwitcher />
             </div>
-
           )}
-          
         </div>
-
       </header>
         <main className="flex flex-col items-center justify-center pt-14 md:pt-18 lg:pt-24 sm:h-lvh h-dvh md:h-dvh lg:h-screen relative"
           style={{
