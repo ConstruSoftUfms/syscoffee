@@ -26,7 +26,7 @@ export default function PlanosCard() {
     <div className="flex justify-center items-center lg:min-h-screen md:min-h-screen ">
       
         <div className="sm:w-full md:w-full lg:w-full max-w-6xl">
-          <h1 className="text-center mb-8 text-xl md:text-xl lg:text-3xl font-bold text-white ">Planos de Assinatura</h1>
+          <h1 className="text-center mb-8 text-xl md:text-xl lg:text-3xl font-bold text-black dark:text-white ">Planos de Assinatura</h1>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-10 p-20 lg:p-6">
             {response?.planos.map((plano, index) => (

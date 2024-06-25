@@ -9,14 +9,13 @@ import { ThemeSwitcher } from '@/components/theme-switcher'
 import { getServerSession } from 'next-auth'
 import { nextAuthOptions } from './api/auth/[...nextauth]/route'
 
-
 export default async function Home() {
   const session = await getServerSession(nextAuthOptions)
   const user = session?.user
 
   return (
     <>
-      <header className="p-2 bg-[#302216] flex justify-between items-center space-x-3 sticky top-0 z-10">
+      <header className="p-2 dark:bg-black flex justify-between items-center space-x-3 sticky top-0 z-10">
         
         <MenuNavegation/>
         <div className="flex items-center space-x-3 ">
@@ -26,12 +25,13 @@ export default async function Home() {
                <strong>{user.username} !</strong>
               </span>
               <ButtonSignOut />
+              <ThemeSwitcher />
             </>
           ) : (
             <div className='space-x-3'>
-              <ThemeSwitcher />
               <SignInDialog />
               <SignUpDialog />
+              <ThemeSwitcher />              
             </div>
 
           )}
