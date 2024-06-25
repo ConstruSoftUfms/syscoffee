@@ -23,7 +23,7 @@ export default function Providers({ children }: ProvidersProps) {
       >
       <QueryClientProvider client={queryClient}>
         {children}
-        <Toaster richColors />
+        <Toaster richColors position="top-center"/>
       </QueryClientProvider>
       </ThemeProvider>
     </SessionProvider>

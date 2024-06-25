@@ -17,6 +17,7 @@ import { signIn } from "next-auth/react"
 import Link from "next/link"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useForm } from "react-hook-form"
+import { toast } from "sonner"
 import { z } from "zod"
 
 const loginSchema = z.object({
@@ -44,6 +45,14 @@ export function SignInDialog() {
     },
   })
 
+  const promise = () =>
+    new Promise((resolve) =>
+      setTimeout(() => {
+        const user = { username: 'Sonner' };
+        resolve(user);
+      }, 20)
+    );
+
   const onOpenChange = (isOpen: boolean) => {
     const pathName = isOpen ? `${pathname}?sign-in` : pathname;
     router.push(pathName);
@@ -56,6 +65,8 @@ export function SignInDialog() {
       redirect: false,
     }).then((response) => {
       if (response?.error) {
+        toast.warning('Credenciais inválidas')
+
         form.setError('username_email', {
           type: 'manual',
           message: 'Credenciais inválidas',
@@ -66,7 +77,13 @@ export function SignInDialog() {
           message: 'Credenciais inválidas',
         })
       } else {
-        router.replace('/')
+        toast.promise(promise,{
+          loading: "Carregando...",
+          success: "Bem vindo de volta :)"
+        });
+        
+        router.push('/')
+        router.refresh()
       }
     })
   }

@@ -17,11 +17,12 @@ import Link from 'next/link'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
+import { toast } from 'sonner'
 
 export const signUpSchema = z.object({
   username: z.string()
-  .min(4, 'Username deve ter no mínimo 6 caracteres')
-  .max(50, 'Username deve ter no máximo 50 caracteres'),
+  .min(4, { message:"Username deve ter no mínimo 6 caracteres"})
+  .max(50, { message: "Username deve ter no máximo 50 caracteres"}),
   email: z.string().email('Email inválido')
   .max(50, 'Email deve ter no máximo 50 caracteres'),
   password: z.string()
@@ -79,10 +80,12 @@ export function SignUpDialog() {
     await postUser(data)
       .then((response) => {
         if (response.status === 201) {
-          alert('Usuário criado com sucesso!')
+          toast.success('Usuário criado com sucesso!')
           router.replace('/?sign-in')
         } else {
-          alert('Erro ao criar usuário')
+          toast.error('Erro ao criar usuário')
+          
+
         }
       })
       .catch((error) => {
