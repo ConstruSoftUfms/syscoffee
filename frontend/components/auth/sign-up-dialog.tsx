@@ -9,7 +9,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
-import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
+import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Coffee } from 'lucide-react'
@@ -18,34 +18,44 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { toast } from 'sonner'
+import { isValidCPF, isValidCEP, isValidMobilePhone} from '@brazilian-utils/brazilian-utils';
+
+const cpfSchema = z.string().refine((val) => isValidCPF(val), {
+  message: 'CPF inválido',
+});
+const cepSchema = z.string().refine((val) => isValidCEP(val), {
+  message: 'CEP inválido',
+});
+const telefoneSchema = z.string().refine((val) => isValidMobilePhone(val), {
+  message: 'Telefone inválido',
+});
 
 export const signUpSchema = z.object({
   username: z.string()
-  .min(4, { message:"Username deve ter no mínimo 6 caracteres"})
+  .min(4, { message:"Username deve ter no mínimo 4 caracteres"})
   .max(50, { message: "Username deve ter no máximo 50 caracteres"}),
-  email: z.string().email('Email inválido')
-  .max(50, 'Email deve ter no máximo 50 caracteres'),
+  email: z.string()
+  .email('Email inválido')
+  .max(50, { message: "Email deve ter no máximo 50 caracteres"}),
   password: z.string()
-  .min(4, 'Senha deve ter no mínimo 4 caracteres')
-  .max(50, 'Senha deve ter no máximo 50 caracteres'),
+  .min(4, { message: "Senha deve ter no mínimo 4 caracteres"})
+  .max(50, { message: "Senha deve ter no máximo 50 caracteres"}),
   nome: z.string()
-  .min(6, 'Nome deve ter no mínimo 6 caracteres')
-  .max(50, 'Nome deve ter no máximo 50 caracteres'),
-  cpf: z.string()
-  .min(11, 'CPF deve ter no mínimo 11 caracteres')
-  .max(14, 'CPF deve ter no máximo 14 caracteres'),
-  telefone: z.string()
-  .min(9, 'Telefone deve ter no mínimo 10 caracteres')
-  .max(15, 'Telefone deve ter no máximo 15 caracteres'),
+  .min(6, { message: "Nome deve ter no mínimo 6 caracteres"})
+  .max(50, { message: "Nome deve ter no máximo 50 caracteres"}),
+
+  cpf: cpfSchema,
+  telefone: telefoneSchema,
+  
   nascimento: z.string()
-  .min(8, 'Data de nascimento deve ter no mínimo 8 caracteres')
-  .max(10, 'Data de nascimento deve ter no máximo 10 caracteres'),
-  endereco_cep: z.string()
-  .min(8, 'CEP deve ter no mínimo 8 caracteres')
-  .max(11, 'CEP deve ter no máximo 9 caracteres'),
+  .min(8, { message: "Data de nascimento deve ter no mínimo 8 caracteres"})
+  .max(10, { message: "Data de nascimento deve ter no máximo 10 caracteres"}),
+
+  endereco_cep: cepSchema,
+
   endereco_numero: z.string()
-  .min(1, 'Número deve ter no mínimo 1 caracteres')
-  .max(6, 'Número deve ter no máximo 6 caracteres'),
+  .min(1, { message: "Número deve ter no mínimo 1 caracteres"})
+  .max(6, { message: "Número deve ter no máximo 6 caracteres"}),
   foto: z.string(),
 })
 
@@ -120,6 +130,7 @@ export function SignUpDialog() {
                       <FormControl>
                         <Input placeholder="Nome" {...field} />
                       </FormControl>
+                      <FormMessage className='text-yellow-300' />
                     </FormItem>
                   )}
                 />
@@ -131,6 +142,7 @@ export function SignUpDialog() {
                       <FormControl>
                         <Input placeholder="CPF" {...field} />
                       </FormControl>
+                      <FormMessage className='text-yellow-300' />
                     </FormItem>
                   )}
                 />
@@ -144,6 +156,7 @@ export function SignUpDialog() {
                         <FormControl>
                           <Input placeholder="Telefone" {...field} />
                         </FormControl>
+                        <FormMessage className='text-yellow-300' />
                       </FormItem>
                     )}
                   />
@@ -159,6 +172,7 @@ export function SignUpDialog() {
                             {...field}
                           />
                         </FormControl>
+                        <FormMessage className='text-yellow-300' />
                       </FormItem>
                     )}
                   />
@@ -170,6 +184,7 @@ export function SignUpDialog() {
                         <FormControl>
                           <Input placeholder="CEP" {...field} />
                         </FormControl>
+                        <FormMessage className='text-yellow-300' />
                       </FormItem>
                     )}
                   />
@@ -181,6 +196,7 @@ export function SignUpDialog() {
                         <FormControl>
                           <Input placeholder="Número" {...field} />
                         </FormControl>
+                        <FormMessage className='text-yellow-300' />
                       </FormItem>
                     )}
                   />
@@ -193,6 +209,7 @@ export function SignUpDialog() {
                       <FormControl>
                         <Input placeholder="Email" {...field} />
                       </FormControl>
+                      <FormMessage className='text-yellow-300' />
                     </FormItem>
                   )}
                 />
@@ -217,6 +234,7 @@ export function SignUpDialog() {
                         <FormControl>
                           <Input placeholder="Username" {...field} />
                         </FormControl>
+                        <FormMessage className='text-yellow-300' />
                       </FormItem>
                     )}
                   />
@@ -232,6 +250,7 @@ export function SignUpDialog() {
                             {...field}
                           />
                         </FormControl>
+                        <FormMessage className='text-yellow-300' />
                       </FormItem>
                     )}
                   />
