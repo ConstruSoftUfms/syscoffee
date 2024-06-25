@@ -6,6 +6,7 @@ import { SessionProvider } from 'next-auth/react'
 import { ThemeProvider } from 'next-themes'
 import { ReactNode } from 'react'
 import { Toaster } from 'sonner'
+import { CartProvider } from '@/context/CartContext';
 
 interface ProvidersProps {
   children: ReactNode
@@ -22,8 +23,10 @@ export default function Providers({ children }: ProvidersProps) {
         storageKey="flowix-cloud-theme"
       >
       <QueryClientProvider client={queryClient}>
-        {children}
-        <Toaster richColors position="top-center"/>
+      <CartProvider>
+            {children}
+            <Toaster richColors position="top-center" className='text-xl'/>
+      </CartProvider>
       </QueryClientProvider>
       </ThemeProvider>
     </SessionProvider>

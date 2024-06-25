@@ -149,10 +149,10 @@ export function SignInDialog() {
           </form>
         </Form>
         <div className="flex text-sm justify-between">
-          <Link href="?sign-in" className="font-medium text-zinc-900 hover:text-zinc-600">
+          {/* <Link href="?sign-in" className="font-medium text-zinc-900 hover:text-zinc-600">
             Esqueceu sua senha
-          </Link>
-          <Link href="?sign-up" className="font-medium text-zinc-900 hover:text-zinc-600">
+          </Link> */}
+          <Link href="?sign-up" className="dark:text-white font-medium text-zinc-900 hover:text-zinc-600">
             Cadastrar
           </Link>
         </div>
