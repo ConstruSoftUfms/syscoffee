@@ -79,7 +79,7 @@ export function SignInDialog() {
       } else {
         toast.promise(promise,{
           loading: "Carregando...",
-          success: "Bem vindo de volta :)"
+          success: "Bem vindo"
         });
         
         router.push('/')
