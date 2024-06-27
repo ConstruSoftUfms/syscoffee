@@ -13,6 +13,8 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { Button } from '@/components/ui/button'
 import ProdutosCard from '@/components/produtos-cards'
+import { useCart } from '@/context/CartContext';
+import { toast } from "sonner"
 
 export default function ProdutosCarousel() {
   const {
@@ -29,6 +31,8 @@ export default function ProdutosCarousel() {
   const handleProdutoSelect = (produto: Produto) => {
     setSelectedProduto(produto);
   };
+
+  const { addToCart } = useCart();
 
   return (
     <div className="flex justify-center items-center h-screen">
@@ -70,7 +74,7 @@ export default function ProdutosCarousel() {
                       </p>
 
                       <Button
-                        onClick={() => handleProdutoSelect(produto)}
+                        onClick={() => { addToCart(produto); toast.success(`${produto.nome} adicionado ao carrinho!`);}}
                         className="bg-blue-700 text-white font-bold px-20 py-3 rounded-3xl hover:bg-blue-950 "
                         style={{ marginTop: "10px", display: "block", margin: "0 auto" }}
                       >

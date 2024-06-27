@@ -9,6 +9,7 @@ import { ThemeSwitcher } from '@/components/theme-switcher'
 import { getServerSession } from 'next-auth'
 import { nextAuthOptions } from './api/auth/[...nextauth]/route'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Carrinho } from '@/components/Carrinho'
 
 
 export default async function Home() {
@@ -31,13 +32,16 @@ export default async function Home() {
                 <strong>{user.username}</strong>
               </span>
               <ButtonSignOut />
-              <ThemeSwitcher />
+              {/* <ThemeSwitcher /> */}
+              <Carrinho />
+
             </>
           ) : (
             <div className="space-x-3">
               <SignInDialog />
               <SignUpDialog />
-              <ThemeSwitcher />
+              {/* <ThemeSwitcher /> */}
+              <Carrinho />
             </div>
           )}
         </div>

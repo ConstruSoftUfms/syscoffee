@@ -14,6 +14,9 @@ import {
     DialogTrigger,
     DialogDescription
 } from '@/components/ui/dialog';
+import { toast } from "sonner"
+import { useCart } from '@/context/CartContext';
+
 
 export default function ProdutosCard() {
     const { data: response } = useQuery({
@@ -28,6 +31,9 @@ export default function ProdutosCard() {
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
+    
+    const { addToCart } = useCart();
+
 
     useEffect(() => {
         const isProdutos = searchParams.get('produtos');
@@ -50,7 +56,7 @@ export default function ProdutosCard() {
     });
 
     return (
-        <div className="">
+        <div className="">  
             <Dialog open={isDialogOpen} onOpenChange={handleOpenChange}>
                 <DialogTrigger asChild>
                     <Button variant="secondary" className="mb-4">
@@ -117,9 +123,15 @@ export default function ProdutosCard() {
                                             <p className="text-xs text-white italic h-12" style={{fontSize: "10px" }}>
                                                 Marca: {produto.marca}
                                             </p>
-                                            <Button className="text-xs  lg:text-sm w-full bg-blue-700 text-white rounded-3xl hover:bg-blue-950" >
-                                                Comprar
-                                            </Button>
+                                        <Button
+                                            className="text-xs lg:text-sm w-full bg-blue-700 text-white rounded-3xl hover:bg-blue-950"
+                                            onClick={() => {
+                                                addToCart(produto);
+                                                toast.success(`${produto.nome} adicionado ao carrinho!`);
+                                            }}
+                                        >
+                                            Comprar
+                                        </Button>
                                         </CardContent>
                                     </Card>
                                 ))}
