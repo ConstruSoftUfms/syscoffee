@@ -2,20 +2,15 @@ from datetime import datetime
 from typing import Annotated
 from uuid import UUID
 
-from fastapi import APIRouter, HTTPException, UploadFile, status, Form
+from fastapi import APIRouter, HTTPException, UploadFile, status, Form, Depends
 from pydantic import EmailStr
 from sqlalchemy import or_, select
 from src.db import SessionDependency
 from src.models import User
 from src.schemas import UserDetail, UserInput, UserList
-from src.services.auth import get_password_hash
+from src.services.auth import get_password_hash, get_current_user
 
 router = APIRouter(prefix="/users", tags=["Users"])
-
-
-def save_file(file: UploadFile) -> str:
-    # TODO: Implementar upload de arquivo
-    return ""
 
 
 @router.post(
@@ -33,7 +28,6 @@ async def create_user(
     nascimento: Annotated[datetime, Form()],
     endereco_cep: Annotated[str, Form()],
     endereco_numero: Annotated[str, Form()],
-    foto: UploadFile,
     session: SessionDependency,
 ):
     try:
@@ -49,6 +43,7 @@ async def create_user(
             endereco_numero=endereco_numero,
         )
     except ValueError as e:
+        print(e)
         raise HTTPException(status_code=400, detail=str(e))
 
     if session.scalar(
@@ -61,12 +56,7 @@ async def create_user(
     ):
         raise HTTPException(status_code=400, detail="Username ou email já cadastrados")
 
-    try:
-        foto_url = save_file(foto)
-        # nome Foo Bar -> Foo+Bar
-        foto_url = f"https://avatar.iran.liara.run/username?username={payload.nome.replace(' ', '+')}"
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+    foto_url = f"https://avatar.iran.liara.run/username?username={payload.nome.replace(' ', '+')}"
 
     user = User(
         username=payload.username,
@@ -89,13 +79,25 @@ async def create_user(
 
 
 @router.get("", response_model=UserList)
-async def list_users(session: SessionDependency):
+async def list_users(
+    current_user: Annotated[User, Depends(get_current_user)], session: SessionDependency
+):
+    if not current_user.is_admin:
+        raise HTTPException(status_code=403, detail="Acesso negado")
+
     users = session.scalars(select(User)).all()
     return {"users": users}
 
 
 @router.get("/{user_id}", response_model=UserDetail)
-async def detail_user(user_id: UUID, session: SessionDependency):
+async def detail_user(
+    current_user: Annotated[User, Depends(get_current_user)],
+    user_id: UUID,
+    session: SessionDependency,
+):
+    if not current_user.is_admin and current_user.id != user_id:
+        raise HTTPException(status_code=403, detail="Acesso negado")
+
     if not (user := session.scalar(select(User).where(User.id == user_id))):
         raise HTTPException(status_code=404, detail="Usuario não encontrado")
 
@@ -103,7 +105,15 @@ async def detail_user(user_id: UUID, session: SessionDependency):
 
 
 @router.put("/users/{user_id}", response_model=UserDetail)
-async def update_user(user_id: UUID, payload: UserInput, session: SessionDependency):
+async def update_user(
+    current_user: Annotated[User, Depends(get_current_user)],
+    user_id: UUID,
+    payload: UserInput,
+    session: SessionDependency,
+):
+    if not current_user.is_admin and current_user.id != user_id:
+        raise HTTPException(status_code=403, detail="Acesso negado")
+
     if not (user := session.scalar(select(User).where(User.id == user_id))):
         raise HTTPException(status_code=404, detail="Usuario não encontrado")
 
@@ -118,7 +128,14 @@ async def update_user(user_id: UUID, payload: UserInput, session: SessionDepende
 
 
 @router.delete("/{user_id}", status_code=204)
-async def delete_user(user_id: UUID, session: SessionDependency):
+async def delete_user(
+    current_user: Annotated[User, Depends(get_current_user)],
+    user_id: UUID,
+    session: SessionDependency,
+):
+    if not current_user.is_admin and current_user.id != user_id:
+        raise HTTPException(status_code=403, detail="Acesso negado")
+
     if not (user := session.scalar(select(User).where(User.id == user_id))):
         raise HTTPException(status_code=404, detail="Usuario não encontrado")
 

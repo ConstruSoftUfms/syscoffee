@@ -11,14 +11,14 @@ import {
 } from '@/components/ui/dialog'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { isValidCEP, isValidCPF, isValidMobilePhone } from '@brazilian-utils/brazilian-utils'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Coffee } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useForm } from 'react-hook-form'
-import { z } from 'zod'
 import { toast } from 'sonner'
-import { isValidCPF, isValidCEP, isValidMobilePhone} from '@brazilian-utils/brazilian-utils';
+import { z } from 'zod'
 
 const cpfSchema = z.string().refine((val) => isValidCPF(val), {
   message: 'CPF inválido',
@@ -32,31 +32,30 @@ const telefoneSchema = z.string().refine((val) => isValidMobilePhone(val), {
 
 export const signUpSchema = z.object({
   username: z.string()
-  .min(4, { message:"Username deve ter no mínimo 4 caracteres"})
-  .max(50, { message: "Username deve ter no máximo 50 caracteres"}),
+    .min(4, { message: "Username deve ter no mínimo 4 caracteres" })
+    .max(50, { message: "Username deve ter no máximo 50 caracteres" }),
   email: z.string()
-  .email('Email inválido')
-  .max(50, { message: "Email deve ter no máximo 50 caracteres"}),
+    .email('Email inválido')
+    .max(50, { message: "Email deve ter no máximo 50 caracteres" }),
   password: z.string()
-  .min(4, { message: "Senha deve ter no mínimo 4 caracteres"})
-  .max(50, { message: "Senha deve ter no máximo 50 caracteres"}),
+    .min(4, { message: "Senha deve ter no mínimo 4 caracteres" })
+    .max(50, { message: "Senha deve ter no máximo 50 caracteres" }),
   nome: z.string()
-  .min(6, { message: "Nome deve ter no mínimo 6 caracteres"})
-  .max(50, { message: "Nome deve ter no máximo 50 caracteres"}),
+    .min(6, { message: "Nome deve ter no mínimo 6 caracteres" })
+    .max(50, { message: "Nome deve ter no máximo 50 caracteres" }),
 
   cpf: cpfSchema,
   telefone: telefoneSchema,
-  
+
   nascimento: z.string()
-  .min(8, { message: "Data de nascimento deve ter no mínimo 8 caracteres"})
-  .max(10, { message: "Data de nascimento deve ter no máximo 10 caracteres"}),
+    .min(8, { message: "Data de nascimento deve ter no mínimo 8 caracteres" })
+    .max(10, { message: "Data de nascimento deve ter no máximo 10 caracteres" }),
 
   endereco_cep: cepSchema,
 
   endereco_numero: z.string()
-  .min(1, { message: "Número deve ter no mínimo 1 caracteres"})
-  .max(6, { message: "Número deve ter no máximo 6 caracteres"}),
-  foto: z.string(),
+    .min(1, { message: "Número deve ter no mínimo 1 caracteres" })
+    .max(6, { message: "Número deve ter no máximo 6 caracteres" })
 })
 
 export function SignUpDialog() {
@@ -77,7 +76,6 @@ export function SignUpDialog() {
       nascimento: '',
       endereco_cep: '',
       endereco_numero: '',
-      foto: '',
     },
   })
 
@@ -87,20 +85,15 @@ export function SignUpDialog() {
   }
 
   async function handleSignUp(data: z.infer<typeof signUpSchema>) {
-    await postUser(data)
-      .then((response) => {
-        if (response.status === 201) {
-          toast.success('Usuário criado com sucesso!')
-          router.replace('/?sign-in')
-        } else {
-          toast.error('Erro ao criar usuário')
-          
-
-        }
-      })
-      .catch((error) => {
-        console.error(error)
-      })
+    try {
+      const response = await postUser(data);
+      console.log('User created successfully:', response);
+      toast.success('Usuário criado com sucesso!');
+      router.push('/');
+    } catch (error) {
+      console.error('Error creating user:', error);
+      toast.error('Erro ao criar usuário');
+    }
   }
 
   return (
@@ -213,19 +206,8 @@ export function SignUpDialog() {
                     </FormItem>
                   )}
                 />
-                <FormField
-                  control={form.control}
-                  name="foto"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <Input type="file"  placeholder="foto" {...field} />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
                 <div className="grid h-auto grid-cols-2 place-content-center gap-2">
-                
+
                   <FormField
                     control={form.control}
                     name="username"
