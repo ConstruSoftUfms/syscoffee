@@ -13,7 +13,6 @@ export interface User {
   nascimento: string
   endereco_cep: string
   endereco_numero: string
-  foto: string
 }
 
 export default async function postUser(data:User) {
@@ -22,5 +21,5 @@ export default async function postUser(data:User) {
       'Content-Type': 'multipart/form-data',
     },
   })
-  return response
+  return response.data
 }
