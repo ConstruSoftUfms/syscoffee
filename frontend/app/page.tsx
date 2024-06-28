@@ -10,6 +10,7 @@ import { getServerSession } from 'next-auth'
 import { nextAuthOptions } from './api/auth/[...nextauth]/route'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Carrinho } from '@/components/Carrinho'
+import PainelUser from '@/components/PainelUser'
 
 
 export default async function Home() {
@@ -24,14 +25,12 @@ export default async function Home() {
         <div className="flex items-center space-x-3">
           {user ? (
             <>
-              <Avatar>
-                <AvatarImage src={user.foto_url} alt={user.username} />
-                <AvatarFallback>{user.username.charAt(0).toUpperCase()}</AvatarFallback>
-              </Avatar>
+              <PainelUser/>
+
               <span className="text-white">
                 <strong>{user.username}</strong>
               </span>
-              <ButtonSignOut />
+              {/* <ButtonSignOut /> */}
               {/* <ThemeSwitcher /> */}
               <Carrinho />
 

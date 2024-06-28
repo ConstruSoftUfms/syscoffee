@@ -18,6 +18,6 @@ export default function ButtonSignOut() {
     
   }
 
-  return <Button className='rounded-2xl text-1xl text-white font-bold border-none bg-red-800 hover:bg-red-900 ' 
+  return <Button className='w-full rounded-xl text-1xl text-white font-bold border-none bg-red-800 hover:bg-red-900 ' 
   onClick={() => handleSignOut()}>Sair</Button>
 }

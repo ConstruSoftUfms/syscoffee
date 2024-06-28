@@ -15,6 +15,7 @@ import { Button } from '@/components/ui/button'
 import ProdutosCard from '@/components/produtos-cards'
 import { useCart } from '@/context/CartContext';
 import { toast } from "sonner"
+import { Table, TableHeader, TableBody, TableRow, TableCell, TableHead } from '@/components/ui/table';
 
 export default function ProdutosCarousel() {
   const {
