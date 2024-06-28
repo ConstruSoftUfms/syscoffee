@@ -1,9 +1,12 @@
-from fastapi import APIRouter, HTTPException
+from typing import Annotated
+
+from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy import select
 
 from src.db import SessionDependency
-from src.models import Produto
+from src.models import Produto, User
 from src.schemas import ProdutoList
+from src.services.auth import get_current_user
 
 router = APIRouter(prefix="/produtos", tags=["Produtos"])
 
@@ -23,7 +26,14 @@ async def detail_produto(produto_id: int, session: SessionDependency):
 
 
 @router.post("")
-async def create_produto(payload, session: SessionDependency):
+async def create_produto(
+    user: Annotated[User, Depends(get_current_user)],
+    payload,
+    session: SessionDependency,
+):
+    if not user.is_admin:
+        raise HTTPException(status_code=403, detail="Acesso negado")
+
     produto = Produto(
         nome=payload.nome,
         marca=payload.marca,
@@ -42,7 +52,15 @@ async def create_produto(payload, session: SessionDependency):
 
 
 @router.put("/{produto_id}")
-async def update_produto(produto_id: int, payload, session: SessionDependency):
+async def update_produto(
+    user: Annotated[User, Depends(get_current_user)],
+    produto_id: int,
+    payload,
+    session: SessionDependency,
+):
+    if not user.is_admin:
+        raise HTTPException(status_code=403, detail="Acesso negado")
+
     if not (produto := session.scalar(select(Produto).where(Produto.id == produto_id))):
         raise HTTPException(status_code=404, detail="Produto não encontrado")
 
@@ -61,7 +79,14 @@ async def update_produto(produto_id: int, payload, session: SessionDependency):
 
 
 @router.delete("/{produto_id}")
-async def delete_produto(produto_id: int, session: SessionDependency):
+async def delete_produto(
+    user: Annotated[User, Depends(get_current_user)],
+    produto_id: int,
+    session: SessionDependency,
+):
+    if not user.is_admin:
+        raise HTTPException(status_code=403, detail="Acesso negado")
+
     if not (produto := session.scalar(select(Produto).where(Produto.id == produto_id))):
         raise HTTPException(status_code=404, detail="Produto não encontrado")
 

@@ -22,10 +22,5 @@ export default async function postUser(data:User) {
       'Content-Type': 'multipart/form-data',
     },
   })
-  .catch ((error) => {
-    console.error(error.response.data.detail[0].loc)
-    return error.response
-  })
-    
-  return response.data
+  return response
 }

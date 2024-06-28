@@ -4,15 +4,15 @@ from uuid import UUID
 
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
-from jose import ExpiredSignatureError, JWTError, jwt
-from passlib.context import CryptContext
+from jwt import ExpiredSignatureError, PyJWTError, encode, decode
+from pwdlib import PasswordHash
 from pydantic import BaseModel
 
 from config import Config
 from src.db import SessionDependency
 from src.models import User
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+pwd_context = PasswordHash.recommended()
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 
 
@@ -42,7 +42,7 @@ def get_current_user(
         payload = decode_token(token)
     except ExpiredSignatureError as e:
         raise expired_exception from e
-    except JWTError as e:
+    except PyJWTError as e:
         raise credentials_exception from e
 
     try:
@@ -68,13 +68,11 @@ def encode_token(user_id: str, username: str):
         iat=datetime.utcnow(),
         exp=datetime.utcnow() + timedelta(minutes=Config.ACCESS_TOKEN_EXPIRE_MINUTES),
     )
-    return jwt.encode(
-        to_encode.model_dump(), Config.SECRET_KEY, algorithm=Config.ALGORITHM
-    )
+    return encode(to_encode.model_dump(), Config.SECRET_KEY, algorithm=Config.ALGORITHM)
 
 
 def decode_token(token: str) -> dict:
-    return jwt.decode(token, Config.SECRET_KEY, algorithms=[Config.ALGORITHM])
+    return decode(token, Config.SECRET_KEY, algorithms=[Config.ALGORITHM])
 
 
 def get_password_hash(password: str):
