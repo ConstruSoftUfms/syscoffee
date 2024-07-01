@@ -27,8 +27,8 @@ import {
   
   export default async function PainelUser() {
     const session = await getServerSession(nextAuthOptions);
-    const user = session?.user ?? { foto_url: "", username: "", nome: "", email: "", cpf: "", telefone: "", nascimento: "", endereco_cep: "", endereco_numero: ""};
-    const isAdmin = user.username === "admin";
+    const user = session?.user ?? { foto_url: "", username: "", nome: "", email: "", cpf: "", telefone: "", nascimento: "", endereco_cep: "", endereco_numero: "", is_admin: false};
+    const isAdmin = user?.is_admin;
   
     return (
       <DropdownMenu>
