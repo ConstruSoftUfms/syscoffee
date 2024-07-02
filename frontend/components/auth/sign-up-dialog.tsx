@@ -87,11 +87,9 @@ export function SignUpDialog() {
   async function handleSignUp(data: z.infer<typeof signUpSchema>) {
     try {
       const response = await postUser(data);
-      console.log('User created successfully:', response);
       toast.success('Usuário criado com sucesso!');
       router.push('/');
     } catch (error) {
-      console.error('Error creating user:', error);
       toast.error('Erro ao criar usuário');
     }
   }

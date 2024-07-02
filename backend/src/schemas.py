@@ -42,14 +42,22 @@ class CategoriaDetail(BaseSchema):
     nome: str
 
 
-class ProdutoDetail(BaseSchema):
-    id: UUID
+class ProdutoBase(BaseSchema):
     nome: str
     marca: str
     valor: float
     descricao: str
     quantidade: int
     imagem_url: str
+
+
+class ProdutoCreate(ProdutoBase):
+    pass
+    categoria_id: UUID | None = None
+
+
+class ProdutoDetail(ProdutoBase):
+    id: UUID
     categoria: CategoriaDetail
 
 

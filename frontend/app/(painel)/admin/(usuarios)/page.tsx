@@ -1,8 +1,8 @@
 import { getServerSession } from "next-auth";
-import { nextAuthOptions } from "../../api/auth/[...nextauth]/route";
+import { nextAuthOptions } from "@/app/api/auth/[...nextauth]/route";
 
 
-export default async function PerfilPage() {
+export default async function UsersPage() {
   const session = await getServerSession(nextAuthOptions)
   const user = session?.user
 

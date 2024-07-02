@@ -1,11 +1,11 @@
 from typing import Annotated
+from uuid import UUID
 
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import select
-
 from src.db import SessionDependency
 from src.models import Produto, User
-from src.schemas import ProdutoList
+from src.schemas import ProdutoCreate, ProdutoList
 from src.services.auth import get_current_user
 
 router = APIRouter(prefix="/produtos", tags=["Produtos"])
@@ -18,7 +18,7 @@ async def list_produtos(session: SessionDependency):
 
 
 @router.get("/{produto_id}")
-async def detail_produto(produto_id: int, session: SessionDependency):
+async def detail_produto(produto_id: UUID, session: SessionDependency):
     if not (produto := session.scalar(select(Produto).where(Produto.id == produto_id))):
         raise HTTPException(status_code=404, detail="Produto não encontrado")
 
@@ -28,7 +28,7 @@ async def detail_produto(produto_id: int, session: SessionDependency):
 @router.post("")
 async def create_produto(
     user: Annotated[User, Depends(get_current_user)],
-    payload,
+    payload: ProdutoCreate,
     session: SessionDependency,
 ):
     if not user.is_admin:
@@ -54,7 +54,7 @@ async def create_produto(
 @router.put("/{produto_id}")
 async def update_produto(
     user: Annotated[User, Depends(get_current_user)],
-    produto_id: int,
+    produto_id: UUID,
     payload,
     session: SessionDependency,
 ):
@@ -81,7 +81,7 @@ async def update_produto(
 @router.delete("/{produto_id}")
 async def delete_produto(
     user: Annotated[User, Depends(get_current_user)],
-    produto_id: int,
+    produto_id: UUID,
     session: SessionDependency,
 ):
     if not user.is_admin:
