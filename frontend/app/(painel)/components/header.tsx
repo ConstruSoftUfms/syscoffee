@@ -7,16 +7,16 @@ export function Header() {
     <header className="fixed top-0 z-50 h-16 w-full border-b bg-inherit px-5 py-3 ">
       <div className="flex justify-between">
         <nav className="flex gap-6">
-          <HeaderLink href="/user">
-            <User className="mr-0.5 size-4" />
-            <span>Perfil</span>
+          <HeaderLink href="/admin">
+            <DollarSign className="mr-0.5 size-4" />
+            <span>Usuarios</span>
           </HeaderLink>
-          {/* <HeaderLink href="/produtos">
+          <HeaderLink href="/admin/produtos">
             <ShoppingBag className="mr-0.5 size-4" />
             <span>Produtos</span>
-          </HeaderLink> */}
-          <HeaderLink href="/planos">
-            <DollarSign className="mr-0.5 size-4" />
+          </HeaderLink>
+          <HeaderLink href="/admin/planos">
+            <ShoppingBag className="mr-0.5 size-4" />
             <span>Planos</span>
           </HeaderLink>
         </nav>

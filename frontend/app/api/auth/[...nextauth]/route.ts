@@ -1,6 +1,7 @@
 import { api } from '@/lib/axios'
 import NextAuth, { NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
+import { setCookie } from 'nookies'
 import { z } from 'zod'
 
 const signInResponseSchema = z.object({
@@ -38,15 +39,12 @@ const nextAuthOptions: NextAuthOptions = {
               'Content-Type': 'application/x-www-form-urlencoded',
             },
           })
-          .catch((error) => {
-            console.error(
-              'API Error',
-              error.response.status,
-              error.response.data,
-            )
-            throw error
-          })
         const data = signInResponseSchema.parse(response?.data)
+
+        setCookie(null, 'mycoffee.access_token', data.access_token, {
+          maxAge: 60 * 60 // 1 hour
+        })
+
         return {
           id: data.user.id,
           username: data.user.username,

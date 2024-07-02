@@ -2,13 +2,13 @@ from datetime import datetime
 from typing import Annotated
 from uuid import UUID
 
-from fastapi import APIRouter, HTTPException, UploadFile, status, Form, Depends
+from fastapi import APIRouter, Depends, Form, HTTPException, UploadFile, status
 from pydantic import EmailStr
 from sqlalchemy import or_, select
 from src.db import SessionDependency
 from src.models import User
 from src.schemas import UserDetail, UserInput, UserList
-from src.services.auth import get_password_hash, get_current_user
+from src.services.auth import get_current_user, get_password_hash
 
 router = APIRouter(prefix="/users", tags=["Users"])
 
@@ -94,7 +94,7 @@ async def detail_user(
     user_id: UUID,
     session: SessionDependency,
 ):
-    if not current_user.is_admin and current_user.id != user_id:
+    if not current_user.is_admin:
         raise HTTPException(status_code=403, detail="Acesso negado")
 
     if not (user := session.scalar(select(User).where(User.id == user_id))):
@@ -110,7 +110,7 @@ async def update_user(
     payload: UserInput,
     session: SessionDependency,
 ):
-    if not current_user.is_admin and current_user.id != user_id:
+    if not current_user.is_admin:
         raise HTTPException(status_code=403, detail="Acesso negado")
 
     if not (user := session.scalar(select(User).where(User.id == user_id))):
@@ -132,7 +132,7 @@ async def delete_user(
     user_id: UUID,
     session: SessionDependency,
 ):
-    if not current_user.is_admin and current_user.id != user_id:
+    if not current_user.is_admin:
         raise HTTPException(status_code=403, detail="Acesso negado")
 
     if not (user := session.scalar(select(User).where(User.id == user_id))):
