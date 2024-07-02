@@ -80,10 +80,9 @@ async def create_user(
 
 @router.get("", response_model=UserList)
 async def list_users(
-    current_user: Annotated[User, Depends(get_current_user)], session: SessionDependency
+    session: SessionDependency
 ):
-    if not current_user.is_admin:
-        raise HTTPException(status_code=403, detail="Acesso negado")
+    
 
     users = session.scalars(select(User)).all()
     return {"users": users}
