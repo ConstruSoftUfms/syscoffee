@@ -11,6 +11,7 @@ import { nextAuthOptions } from './api/auth/[...nextauth]/route'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Carrinho } from '@/components/Carrinho'
 import PainelUser from '@/components/PainelUser'
+import PainelAdmbutton from '@/components/PainelAdmin'
 
 
 export default async function Home() {
@@ -24,7 +25,7 @@ export default async function Home() {
         <MenuNavegation/>
         <div className="flex items-center space-x-3">
           {user ? (
-            <>
+            <>            
               <PainelUser/>
 
               <span className="text-white">

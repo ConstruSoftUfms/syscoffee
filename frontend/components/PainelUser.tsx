@@ -21,11 +21,12 @@ import {
   DialogTrigger,
 } from "./ui/dialog";
 import { TableBody, TableCell, TableHead, TableRow } from './ui/table';
+import PainelAdmbutton from "./PainelAdmin";
 
 export default async function PainelUser() {
   const session = await getServerSession(nextAuthOptions);
-  const user = session?.user ?? { foto_url: "", username: "", nome: "", email: "", cpf: "", telefone: "", nascimento: "", endereco_cep: "", endereco_numero: "" };
-  const isAdmin = user.username === "admin";
+  const user = session?.user ?? { foto_url: "", username: "", nome: "", email: "", cpf: "", telefone: "", nascimento: "", endereco_cep: "", endereco_numero: "", is_admin: true};
+  const isAdmin = user?.is_admin;
 
   return (
     <DropdownMenu>
@@ -36,71 +37,15 @@ export default async function PainelUser() {
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <div>
-          <Card>
-            <Dialog>
-              <DialogTrigger className="mt-6 w-full">
-                <Button className="mb-6 w-full rounded-xl text-1xl text-white font-bold border-none bg-zinc-600 hover:bg-zinc-500">
-                  Painel
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="w-full max-w-screen-lg h-[80vh] overflow-y-auto p-4 flex flex-col">
-                <DialogHeader>
-                  <DialogTitle className="text-center mb-8">Painel usuário</DialogTitle>
-                  <div className="flex-1">
-                    <Card>
-                      <Accordion type="single" collapsible className="">
-                        <AccordionItem value="item-1">
-                          <AccordionTrigger className="mx-8" >Meu perfil</AccordionTrigger>
-                          <AccordionContent>
-                            <TableRow className="bg-neutral-800">
-                              <TableHead>Nome</TableHead>
-                              <TableHead>Email</TableHead>
-                              <TableHead>Username</TableHead>
-                              <TableHead>CPF</TableHead>
-                              <TableHead>Telefone</TableHead>
-                              <TableHead>Nascimento</TableHead>
-                              <TableHead>Endereço</TableHead>
-                              <TableHead>Número</TableHead>
-                              {/* <TableHead>Ações</TableHead> */}
+        <DropdownMenuItem className="mb-2">
+          {isAdmin && (
+            <>
+              <PainelAdmbutton />
+            </>
+          )}
+        </DropdownMenuItem>
 
-                            </TableRow>
-                            <TableBody>
-                              <TableRow className="mt-6 text-white text-sm border-neutral-700">
-                                <TableCell>{user.nome}</TableCell>
-                                <TableCell>{user.email}</TableCell>
-                                <TableCell>{user.username}</TableCell>
-                                <TableCell>{user.cpf}</TableCell>
-                                <TableCell>{user.telefone}</TableCell>
-                                <TableCell>{user.nascimento}</TableCell>
-                                <TableCell>{user.endereco_cep}</TableCell>
-                                <TableCell>{user.endereco_numero}</TableCell>
-                              </TableRow>
-                            </TableBody>
-                          </AccordionContent>
-                        </AccordionItem>
-                      </Accordion  >
-                      {isAdmin && (
-                        <>
-                          <Accordion type="single" collapsible className="">
-                            <AccordionItem value="item-3">
-                              <AccordionTrigger className="mx-8">Usuários cadastrados</AccordionTrigger>
-                              <AccordionContent>
-                                <UsuariosPainel />
-                              </AccordionContent>
-                            </AccordionItem>
-                          </Accordion  >
-                        </>
-                      )}
-                    </Card>
-                  </div>
-                </DialogHeader>
-              </DialogContent>
-            </Dialog>
-          </Card>
-        </div>
-
-        <DropdownMenuItem>
+        <DropdownMenuItem >
           <ButtonSignOut />
         </DropdownMenuItem>
       </DropdownMenuContent>

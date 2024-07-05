@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect, useRef } from "react";
 import deleteProdutos from "@/app/actions/DeleteProduto";
 import getProdutos from "@/app/actions/getProdutos";
 import { AddProduto } from "@/components/AddProduto";
@@ -7,9 +8,12 @@ import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { queryClient } from "@/lib/tanstack";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { Trash2 } from "lucide-react";
+import { Trash2, Download } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { toast } from "sonner";
+import jsPDF from "jspdf";
+import autoTable from 'jspdf-autotable'
+
 
 
 export default function ProdutosPage() {
@@ -31,13 +35,48 @@ export default function ProdutosPage() {
     mutation.mutate({ id, token: session?.accessToken });
   };
 
+  const generatePDF = () => {
+    const doc = new jsPDF();
+    doc.text("Relatório de Produtos", 14, 22);
+
+    const tableColumn = ["Nome", "Descrição", "Valor", "Marca", "Quantidade", "Categoria"];
+    const tableRows: (string | number)[][] = [];
+
+    response?.produtos.forEach(produto => {
+      const produtoData = [
+        produto.nome,
+        produto.descricao,
+        `R$${produto.valor.toFixed(2)}`,
+        produto.marca,
+        produto.quantidade,
+        produto.categoria.nome,
+      ];
+      tableRows.push(produtoData);
+    });
+
+    autoTable(doc,{
+      head: [tableColumn],
+      body: tableRows,
+      startY: 30,
+    });
+
+    doc.save("relatorio_produtos.pdf");
+  };
+
   return (
     <div>
       <div className="flex justify-between items-center mb-8">
         <h4 className="scroll-m-20 text-xl font-semibold tracking-tight">
           Produtos
         </h4>
-        <AddProduto />
+        <div>
+          <Button onClick={generatePDF} variant="outline" className="mr-4">
+            <Download className="w-4 h-4 mr-2" />
+            Baixar Relatório
+          </Button>
+          <AddProduto />
+
+        </div>
       </div>
 
       <Table className="min-w-full rounded-2xl">
