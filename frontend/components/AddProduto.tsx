@@ -1,6 +1,6 @@
 
 
-import { FormEvent, useState } from "react";
+import postProdutos from "@/app/actions/postProdutos";
 import {
   Sheet,
   SheetClose,
@@ -10,15 +10,15 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { queryClient } from "@/lib/tanstack";
+import { useMutation } from "@tanstack/react-query";
 import { PlusCircle } from 'lucide-react';
+import { useSession } from "next-auth/react";
+import { FormEvent, useState } from "react";
 import { toast } from "sonner";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
-import postProdutos from "@/app/actions/postProdutos";
-import { useMutation } from "@tanstack/react-query";
-import { queryClient } from "@/lib/tanstack";
-import { useSession } from "next-auth/react";
 
 export function AddProduto() {
   const [loading, setLoading] = useState(false);
@@ -35,7 +35,18 @@ export function AddProduto() {
   const handlePostProduto = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const id = event.currentTarget.id.valueOf();
-    mutation.mutate({id: id ?? '', token: session?.accessToken, nome: id ?? '', marca: id ?? '', valor: 0, descricao: id ?? '', quantidade: 0, imagem_url: id ?? '', categoria: {nome: id ?? ''}});
+    mutation.mutate({
+      token: session?.accessToken, 
+      produto: {
+        nome: event.currentTarget.nome.value,
+        marca: event.currentTarget.marca.value,
+        valor: parseFloat(event.currentTarget.valor.value),
+        descricao: event.currentTarget.descricao.value,
+        quantidade: parseInt(event.currentTarget.quantidade.value),
+        imagem_url: event.currentTarget.imagem_url.value,
+        categoria: event.currentTarget.categoria.value
+      }
+    });
   };
 
   return (

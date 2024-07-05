@@ -4,7 +4,7 @@ from uuid import UUID
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import select
 from src.db import SessionDependency
-from src.models import Produto, User
+from src.models import Produto, User, Categoria
 from src.schemas import ProdutoCreate, ProdutoList
 from src.services.auth import get_current_user
 
@@ -34,6 +34,12 @@ async def create_produto(
     if not user.is_admin:
         raise HTTPException(status_code=403, detail="Acesso negado")
 
+    categoria = session.scalar(select(Categoria).where(Categoria.nome.ilike(payload.categoria)))
+
+    if not categoria:
+        categoria = Categoria(nome=payload.categoria)
+        session.add(categoria)
+
     produto = Produto(
         nome=payload.nome,
         marca=payload.marca,
@@ -41,7 +47,7 @@ async def create_produto(
         descricao=payload.descricao,
         quantidade=payload.quantidade,
         imagem_url=payload.imagem_url,
-        fk_categoria=payload.categoria_id,
+        categoria=categoria,
     )
 
     session.add(produto)

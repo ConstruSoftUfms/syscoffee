@@ -52,8 +52,7 @@ class ProdutoBase(BaseSchema):
 
 
 class ProdutoCreate(ProdutoBase):
-    pass
-    categoria_id: UUID | None = None
+    categoria: str | None = None
 
 
 class ProdutoDetail(ProdutoBase):

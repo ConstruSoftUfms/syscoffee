@@ -1,6 +1,6 @@
 'use server'
 
-import { api } from "@/lib/axios"
+import { api } from "@/lib/axios";
 
 export interface User {
     id: string
@@ -12,7 +12,6 @@ export interface deleteUserResponse {
 }
 
 export default async function deleteUser({ id, token }: User) {
-    console.log(id, token);
     const response = await api.delete<deleteUserResponse>(`/users/${id}`,
         {
             headers: {
