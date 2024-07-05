@@ -1,6 +1,8 @@
 import { ThemeSwitcher } from '@/components/theme-switcher'
-import { DollarSign, ShoppingBag, User } from 'lucide-react'
+import { UsersRound, ShoppingBag, User, Undo2 } from 'lucide-react'
 import { HeaderLink } from './header-link'
+import { Button } from '@/components/ui/button'
+import Link from 'next/link';
 
 export function Header() {
   return (
@@ -8,7 +10,7 @@ export function Header() {
       <div className="flex justify-between">
         <nav className="flex gap-6">
           <HeaderLink href="/admin">
-            <DollarSign className="mr-0.5 size-4" />
+            <UsersRound className="mr-0.5 size-4" />
             <span>Usuarios</span>
           </HeaderLink>
           <HeaderLink href="/admin/produtos">
@@ -19,8 +21,16 @@ export function Header() {
             <ShoppingBag className="mr-0.5 size-4" />
             <span>Planos</span>
           </HeaderLink>
+
         </nav>
         <nav className="flex gap-2">
+          <Link href="/" passHref>
+              <Button variant="secondary">
+                <Undo2 className="mr-0.5 size-4" />
+                <span>Voltar ao site</span>
+              </Button>
+          </Link>
+
           <ThemeSwitcher />
         </nav>
       </div>

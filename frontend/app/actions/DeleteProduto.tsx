@@ -13,10 +13,11 @@ export interface DeletePodutosResponse {
 
 export default async function deleteProdutos({ id, token }: DelProduto) {
   console.log(id, token);
-  const response = await api.delete<DeletePodutosResponse>(`/produtos/${id}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  })
+  const response = await api.delete<DeletePodutosResponse>(`/produtos/${id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
   return response.data;
 }
